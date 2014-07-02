@@ -11,11 +11,6 @@ class GridLocation
     @neighbors ||= neighbor_locations
   end
 
-  def ==(other)
-    self.x == other.x &&
-      self.y == other.y
-  end
-
   def tick
     alive = neighbors.select { |location| location.cell.alive? }
     cell.tick(alive.count)
@@ -27,6 +22,11 @@ class GridLocation
 
   def set_neighbors(world)
     @neighbors = merge_neighbors(world)
+  end
+
+  def ==(other)
+    self.x == other.x &&
+      self.y == other.y
   end
 
   private

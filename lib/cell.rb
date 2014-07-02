@@ -1,4 +1,7 @@
 class Cell
+  LIVE = [2, 3]
+  DEAD = [3]
+
   attr_reader :state, :next_state
 
   def initialize(state = :dead)
@@ -28,10 +31,7 @@ class Cell
   end
 
   def get_alive_state(live)
-    case live
-    when 2
-      :alive
-    when 3
+    if LIVE.include?(live)
       :alive
     else
       :dead
@@ -39,7 +39,7 @@ class Cell
   end
 
   def get_dead_state(live)
-    if live == 3
+    if DEAD.include?(live)
       :alive
     else
       :dead
