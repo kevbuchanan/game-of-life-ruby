@@ -1,0 +1,15 @@
+#!/bin/bash
+FILES="./**/*.rb"
+TEST_CMD="rspec"
+
+time=0
+while true; do
+  newtime=$(find $FILES -exec stat -f "%m" \{} \; | sort -n -r | head -1)
+  if [ "$newtime" -gt "$time" ]; then
+      clear
+      $TEST_CMD
+  fi
+
+  time=$newtime;
+  sleep 1
+done
