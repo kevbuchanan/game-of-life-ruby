@@ -1,4 +1,6 @@
 class GridLocation
+  LIMIT = 10
+
   attr_reader :x, :y, :cell
 
   def initialize(x, y, cell = Cell.new)
@@ -11,9 +13,9 @@ class GridLocation
     @neighbors ||= neighbor_locations
   end
 
-  def tick
-    alive = neighbors.select { |location| location.cell.alive? }
-    cell.tick(alive.count)
+  def tick(world)
+    set_neighbors(world)
+    cell.tick(neighbors.map(&:cell))
   end
 
   def change
@@ -51,11 +53,13 @@ class GridLocation
       top_right,
       bottom_left,
       bottom_right
-    ]
+    ].compact
   end
 
   def location_at(x, y)
-    GridLocation.new(x, y)
+    unless out_of_bounds(x, y)
+      GridLocation.new(x, y)
+    end
   end
 
   def left
@@ -88,5 +92,9 @@ class GridLocation
 
   def bottom_right
     location_at(x + 1, y - 1)
+  end
+
+  def out_of_bounds(x, y)
+    x.abs > LIMIT || y.abs > LIMIT
   end
 end

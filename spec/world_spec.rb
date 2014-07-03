@@ -1,5 +1,7 @@
 require 'rspec'
 require './lib/world'
+require './lib/cell'
+require './lib/location'
 
 describe World do
   let(:cell) { Cell.new(:alive) }

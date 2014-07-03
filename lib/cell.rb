@@ -1,8 +1,10 @@
 class Cell
-  LIVE = [2, 3]
-  DEAD = [3]
+  LIVE_STATES = {
+    alive: [2, 3],
+     dead: [3]
+  }
 
-  attr_reader :state, :next_state
+  attr_reader :state, :next_state, :neighbors
 
   def initialize(state = :dead)
     @state = state
@@ -12,8 +14,9 @@ class Cell
     state == :alive
   end
 
-  def tick(live_neighbors)
-    @next_state = get_state(live_neighbors)
+  def tick(neighbors)
+    @neighbors = neighbors
+    @next_state = get_state
   end
 
   def change
@@ -22,24 +25,12 @@ class Cell
 
   private
 
-  def get_state(live)
-    if alive?
-      get_alive_state(live)
-    else
-      get_dead_state(live)
-    end
+  def live_neighbors
+    neighbors.select(&:alive?)
   end
 
-  def get_alive_state(live)
-    if LIVE.include?(live)
-      :alive
-    else
-      :dead
-    end
-  end
-
-  def get_dead_state(live)
-    if DEAD.include?(live)
+  def get_state
+    if LIVE_STATES[state].include?(live_neighbors.count)
       :alive
     else
       :dead

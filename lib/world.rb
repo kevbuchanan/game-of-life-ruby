@@ -21,7 +21,9 @@ class World
   end
 
   def tick_locations
-    locations.each(&:tick)
+    locations.each do |location|
+      location.tick(locations)
+    end
   end
 
   def change_locations

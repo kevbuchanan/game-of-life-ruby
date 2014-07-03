@@ -1,5 +1,6 @@
 require 'rspec'
 require './lib/location'
+require './lib/cell'
 
 describe GridLocation do
   let(:cell) { Cell.new(:alive) }
@@ -53,17 +54,15 @@ describe GridLocation do
   end
 
   describe 'tick' do
-    it 'ticks its cell with the alive neighbor count' do
-      location.set_neighbors([location_2, GridLocation.new(10, 10)])
-      location.tick
+    it 'ticks its cell with the neighbor cells' do
+      location.tick([location_2, GridLocation.new(10, 10)])
       expect(location.cell.next_state).to eq(:dead)
     end
   end
 
   describe 'change' do
     it 'calls change on its cell' do
-      location.set_neighbors([location_2, GridLocation.new(10, 10)])
-      location.tick
+      location.tick([location_2, GridLocation.new(10, 10)])
       location.change
       expect(location.cell.state).to eq(:dead)
     end
