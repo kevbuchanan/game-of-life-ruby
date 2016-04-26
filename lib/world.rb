@@ -28,5 +28,6 @@ class World
 
   def change_locations
     locations.each(&:change)
+    @locations.select! { |location| location.cell.alive? }
   end
 end
